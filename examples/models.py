@@ -12,7 +12,6 @@ tags = Table('tag_image', Base.metadata,
 )
 
 class Image(Base):
-
     __tablename__ = 'images'
 
     id = Column(Integer, primary_key=True)
@@ -27,7 +26,6 @@ class Image(Base):
         return "<Image (uuid={}, likes={}, created_at={})>".format(self.uuid, self.likes, str_created_at)
 
 class Tag(Base):
-
     __tablename__ = 'tags'
 
     id = Column(Integer, primary_key=True)
@@ -37,7 +35,6 @@ class Tag(Base):
         return "<Tag (name='%s')>" % (self.name)
 
 class Comment(Base):
-
     __tablename__ = 'comments'
 
     id  = Column(Integer, primary_key=True)

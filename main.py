@@ -35,11 +35,23 @@ def populate_db():
 
 def filter():
     filter_by = [
-        dict(field_name='text', operator='contains', field_value='often')
+        {
+            "field_name": "Image.tags",
+            "field_value": {
+                "field_name": "Tag.name",
+                "field_value":["cool"],
+                "operator": "in"
+            },
+            "operator": "any"
+        }
     ]
-    search = Search(session=session, model_cls=(Comment,), filter_by=filter_by)
+    order_by = ['-Image.uuid']
+
+    search = Search(session, 'examples.models', (Image,), filter_by=filter_by, order_by=order_by)
     results = search.results
-    print(results)
+    print("Found {} record(s)".format(results['count']))
+    for r in results['data']:
+        print(r)
 
 if __name__ == '__main__':
     filter()
