@@ -19,5 +19,9 @@ ENV/
 env.bak/
 venv.bak/
 
+dist/
+build/
+*.egg-info
+
 .idea/
 .DS_Store
