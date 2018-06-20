@@ -4,8 +4,10 @@ __email__ = "suyash.soni248@gmail.com"
 import importlib
 import types
 from collections import OrderedDict
+from commons.callable import Callable
 from constants.error_codes import ErrorCode
-from util.callable import Callable
+from commons.error_handlers.exceptions import ExceptionBuilder
+
 
 def load_class(fully_qualified_class_name):
     """
@@ -77,9 +79,7 @@ def _deserialize_one_(model_obj, *args, fields=(), deserializer=None, **kwargs):
         all_fields_dict = model_dict
         return OrderedDict((f, all_fields_dict[f]) for f in fields) if len(fields) > 0 else OrderedDict(all_fields_dict)
     except KeyError as ke:
-        # TODO - ErrorHandler
-        pass
-        # ExceptionBuilder().error(ErrorCode.INVALID_FIELD, 'unknown', message=str(ke)).throw()
+        ExceptionBuilder().error(ErrorCode.INVALID_FIELD, 'unknown', message=str(ke)).throw()
 
 def deserialize(data, fields=(), deserializer=None, *args, **kwargs):
     """
@@ -98,15 +98,11 @@ def deserialize(data, fields=(), deserializer=None, *args, **kwargs):
 
     :return: Deserialized object or
     """
-    try:
-        if isinstance(data, (list, set, tuple)):
-            return list(map(lambda _: _deserialize_one_(_, *args, fields=fields, deserializer=deserializer, **kwargs), data))
-        else:
-            return _deserialize_one_(data, fields=fields, *args, **kwargs)
-    except AttributeError as ae:
-        pass
-        # TODO - ErrorHandler
-        # ExceptionBuilder().error(ErrorCode.INVALID_DATA_TYPE, 'unknown', message=str(ae)).throw()
+    if isinstance(data, (list, set, tuple)):
+        return list(
+            map(lambda _: _deserialize_one_(_, *args, fields=fields, deserializer=deserializer, **kwargs), data))
+    else:
+        return _deserialize_one_(data, fields=fields, *args, **kwargs)
 
 def xdeserialize(records, fields=(), deserializer=None, *args, **kwargs):
     """
@@ -126,10 +122,5 @@ def xdeserialize(records, fields=(), deserializer=None, *args, **kwargs):
     """
     if not isinstance(records, (list, tuple)):
         records = [records]
-    try:
-        for rec in records:
-            yield _deserialize_one_(rec, *args, fields=fields, deserializer=deserializer, **kwargs)
-    except AttributeError as ae:
-        pass
-        # TODO - ErrorHandler
-        # ExceptionBuilder().error(ErrorCode.INVALID_DATA_TYPE, 'unknown', message=str(ae)).throw()
+    for rec in records:
+        yield _deserialize_one_(rec, *args, fields=fields, deserializer=deserializer, **kwargs)

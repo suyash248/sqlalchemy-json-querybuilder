@@ -1,7 +1,7 @@
 __author__ = "Suyash Soni"
 __email__ = "suyash.soni248@gmail.com"
 
-from util.error_handlers.errors import Error
+from commons.error_handlers.errors import Error
 
 class BaseException(Exception):
     """

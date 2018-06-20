@@ -3,8 +3,8 @@ __email__ = "suyash.soni248@gmail.com"
 
 from querybuilder.criterion import Criterion
 from constants.error_codes import ErrorCode
-from util import commons
-from error_handlers.exceptions.exceptions import ExceptionBuilder, SqlAlchemyException
+from commons import commons
+from commons.error_handlers.exceptions.exceptions import ExceptionBuilder, SqlAlchemyException
 
 class Search():
     """

@@ -1,7 +1,7 @@
 __author__ = "Suyash Soni"
 __email__ = "suyash.soni248@gmail.com"
 
-from error_handlers.exceptions import SqlAlchemyException, ExceptionBuilder
+from commons.error_handlers.exceptions import SqlAlchemyException, ExceptionBuilder
 from constants.error_codes import ErrorCode
 
 class Criterion(object):
