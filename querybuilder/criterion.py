@@ -1,8 +1,8 @@
 __author__ = "Suyash Soni"
 __email__ = "suyash.soni248@gmail.com"
 
-from services.commons.error_handlers.exceptions import BadRequest, ExceptionBuilder
-from services.commons.constants.ErrorCodes import DBErrorCode, HttpErrorCode
+# from services.commons.error_handlers.exceptions import BadRequest, ExceptionBuilder
+from constants.error_codes import DBErrorCode, ErrorCode
 
 class Criterion(object):
     """
@@ -29,11 +29,13 @@ class Criterion(object):
                         'endswith', 'iendswith', 'contains', 'icontains', 'in', 'notin', 'isnull', 'isnotnull'``
         """
         try:
-            from services.commons.search.operators import operators_mapping
+            from querybuilder.operators import operators_mapping
             operator_cls = operators_mapping[operator_name]
             self.operator = operator_cls(model_cls, field_name, field_value)
         except KeyError as ke:
-            ExceptionBuilder(BadRequest).error(HttpErrorCode.INVALID_OPERATOR, operator_name).throw()
+            pass
+            # TODO - ErrorHandler
+            # ExceptionBuilder(BadRequest).error(HttpErrorCode.INVALID_OPERATOR, operator_name).throw()
 
     def eval(self):
         """Evaluates underlying criterion and returns SQLAlchemy expression, this expression will be used

@@ -9,7 +9,7 @@ class Search():
     """
     SQL-alchemy JSON query builder. Constructs queryset via JSON and that queryset can be used to get the results.
     """
-    def __init__(self, model_cls, filter_by=[], order_by=(), page=1, per_page=10, all=False, window_size=None,
+    def __init__(self, session=None, model_cls=(), filter_by=[], order_by=(), page=1, per_page=10, all=False, window_size=None,
                  error_callback=None):
         """
         :param model_cls: Model type on which filtering has to be done.
@@ -28,6 +28,7 @@ class Search():
         self.per_page = per_page
         self.all = all
         self.window_size = window_size
+        self.session = session
         self.error_callback = error_callback
 
     @property
@@ -75,7 +76,7 @@ class Search():
 
         `More info` - http://docs.sqlalchemy.org/en/latest/orm/tutorial.html#common-relationship-operators
         """
-        m_cls = self.model_cls
+        m_cls = self.model_cls[0]
         if field_name.find('.') > 0:
             model_cls_field_name = field_name.split('.')
             m_cls = commons.load_class('models.'+model_cls_field_name[0])
@@ -108,9 +109,10 @@ class Search():
             else:
                 raise AttributeError(error_info)
 
-        ordering_criteria = self.order_by or ['-created_date']
+        ordering_criteria = self.order_by or []
         # ModelClass.query.order_by(User.popularity.desc(),User.date_created.desc())
-        data_query_set = self.model_cls.query.filter(*expressions)
+        # data_query_set = self.model_cls.query.filter(*expressions)
+        data_query_set = self.session.query(*self.model_cls).filter(*expressions)
         order_by_expressions = []
         for ordering_criterion in ordering_criteria:
             direction = 'desc' if ordering_criterion.startswith('-') else 'asc'
@@ -121,7 +123,7 @@ class Search():
         data_query_set = data_query_set.order_by(*order_by_expressions)
         return data_query_set
 
-def search(model_cls, filter_by=[], order_by=(), page=1, per_page=10, all=False):
+def search(model_cls=(), filter_by=[], order_by=(), page=1, per_page=10, all=False):
     """
     query_objs = {
         filter_by: [
@@ -143,4 +145,4 @@ def search(model_cls, filter_by=[], order_by=(), page=1, per_page=10, all=False)
     :param all: if `True`, returns all searched results without pagination.
     :return: {data: [<filtered_records>], count: <num_of_records>}
     """
-    return Search(model_cls, filter_by=filter_by, order_by=order_by, page=page, per_page=per_page, all=all).results
+    return Search(model_cls=model_cls, filter_by=filter_by, order_by=order_by, page=page, per_page=per_page, all=all).results
