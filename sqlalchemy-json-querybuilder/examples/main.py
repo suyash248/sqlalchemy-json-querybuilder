@@ -1,5 +1,7 @@
-from examples.models import *
+from examples.models import Tag, Comment, Image
 from querybuilder.search import Search
+from examples.connector import Base, engine, session
+
 
 def populate_db():
     # ----------------------------
