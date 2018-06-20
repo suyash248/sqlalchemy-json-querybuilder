@@ -1,8 +1,8 @@
 __author__ = "Suyash Soni"
 __email__ = "suyash.soni248@gmail.com"
 
-# from services.commons.error_handlers.exceptions import BadRequest, ExceptionBuilder
-from constants.error_codes import DBErrorCode, ErrorCode
+from error_handlers.exceptions import SqlAlchemyException, ExceptionBuilder
+from constants.error_codes import ErrorCode
 
 class Criterion(object):
     """
@@ -33,9 +33,9 @@ class Criterion(object):
             operator_cls = operators_mapping[operator_name]
             self.operator = operator_cls(model_cls, field_name, field_value)
         except KeyError as ke:
-            pass
-            # TODO - ErrorHandler
-            # ExceptionBuilder(BadRequest).error(HttpErrorCode.INVALID_OPERATOR, operator_name).throw()
+            ExceptionBuilder(SqlAlchemyException).error(ErrorCode.INVALID_OPERATOR, operator_name).message(
+                "Invalid operator {}".format(operator_name)
+            ).throw()
 
     def eval(self):
         """Evaluates underlying criterion and returns SQLAlchemy expression, this expression will be used

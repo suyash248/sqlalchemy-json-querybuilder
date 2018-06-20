@@ -4,15 +4,16 @@ __email__ = "suyash.soni248@gmail.com"
 from querybuilder.criterion import Criterion
 from constants.error_codes import ErrorCode
 from util import commons
+from error_handlers.exceptions.exceptions import ExceptionBuilder, SqlAlchemyException
 
 class Search():
     """
     SQL-alchemy JSON query builder. Constructs queryset via JSON and that queryset can be used to get the results.
     """
-    def __init__(self, session=None, model_cls=(), filter_by=[], order_by=(), page=1, per_page=10, all=False, window_size=None,
-                 error_callback=None):
+    def __init__(self, session, model_cls, filter_by=[], order_by=(), page=1, per_page=10, all=False,
+                 window_size=None, error_callback=None):
         """
-        :param model_cls: Model type on which filtering has to be done.
+        :param model_cls: Tuple/list of model types/classes on which filtering has to be done.
         :param filter_by: dict containing `field_name`, `field_value` & `operator` as shown above.
         :param order_by: list containing `field_name`s. `-` sign denotes DESC order.
         :param page: Current page number.
@@ -107,8 +108,7 @@ class Search():
             if self.error_callback:
                 self.error_callback(**error_info)
             else:
-                raise AttributeError(error_info)
-
+                ExceptionBuilder(SqlAlchemyException).error(ErrorCode.INVALID_FIELD, *error_fields).throw()
         ordering_criteria = self.order_by or []
         # ModelClass.query.order_by(User.popularity.desc(),User.date_created.desc())
         # data_query_set = self.model_cls.query.filter(*expressions)
@@ -122,27 +122,3 @@ class Search():
 
         data_query_set = data_query_set.order_by(*order_by_expressions)
         return data_query_set
-
-def search(model_cls=(), filter_by=[], order_by=(), page=1, per_page=10, all=False):
-    """
-    query_objs = {
-        filter_by: [
-            {
-                field_name: first_name,
-                field_value: jo
-                operator: 'equals', 'notequals', 'lt', 'lte', 'gt', 'gte', 'like', 'ilike',
-                            'startswith', 'istartswith', 'endswith', 'iendswith',
-                            'contains', 'icontains', 'in', 'notin', 'isnull', 'isnotnull', 'any', 'has'
-            }
-        ]
-        order_by: ['-created_date', 'status']
-    }
-    :param model_cls: Model type on which filtering has to be done.
-    :param filter_by: dict containing `field_name`, `field_value` & `operator` as shown above.
-    :param order_by: list containing `field_name`s. `-` sign denotes DESC order.
-    :param page:
-    :param per_page:
-    :param all: if `True`, returns all searched results without pagination.
-    :return: {data: [<filtered_records>], count: <num_of_records>}
-    """
-    return Search(model_cls=model_cls, filter_by=filter_by, order_by=order_by, page=page, per_page=per_page, all=all).results
