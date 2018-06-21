@@ -12,7 +12,7 @@ python3 -m pip install --index-url https://test.pypi.org/simple sqlalchemy-json-
 
 ```python
 
-#-------------- Creating connection & sessison ---------------#
+#-------------- Creating connection & session ---------------#
 
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine
@@ -65,6 +65,7 @@ class Recipient(Base):
     email = Column('email', String(256), nullable=False)
 
 #-------------- Query -------------#
+
 from sqlalchemy_json_querybuilder.querybuilder.search import Search
 
 filter_by = [{
@@ -85,7 +86,7 @@ order_by = ['-NotificationGroup.client_id']
 
 results = Search(session, "models.notification_group", (NotificationGroup,), filter_by=filter_by, order_by=order_by)
 
-> Above code snippet is equivalent to
+# Above code snippet is equivalent to
 
 results = session.query(NotificationGroup).filter(
             NotificationGroup.group_mappings.any(
