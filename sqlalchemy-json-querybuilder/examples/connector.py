@@ -1,5 +1,5 @@
 __author__ = "Suyash Soni"
-__email__ = "suyash.soni@srijan.net"
+__email__ = "suyash.soni248@gmail.com"
 
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine
