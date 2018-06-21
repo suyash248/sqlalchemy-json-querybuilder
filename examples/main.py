@@ -1,5 +1,5 @@
 from examples.models import Tag, Comment, Image
-from querybuilder.search import Search
+from sqlalchemy_json_querybuilder.querybuilder.search import Search
 from examples.connector import Base, engine, session
 
 

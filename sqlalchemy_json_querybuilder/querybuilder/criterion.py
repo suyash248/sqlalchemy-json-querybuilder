@@ -1,8 +1,8 @@
 __author__ = "Suyash Soni"
 __email__ = "suyash.soni248@gmail.com"
 
-from commons.error_handlers.exceptions import SqlAlchemyException, ExceptionBuilder
-from constants.error_codes import ErrorCode
+from sqlalchemy_json_querybuilder.commons.error_handlers.exceptions import SqlAlchemyException, ExceptionBuilder
+from sqlalchemy_json_querybuilder.constants.error_codes import ErrorCode
 
 class Criterion(object):
     """
@@ -29,7 +29,7 @@ class Criterion(object):
                         'endswith', 'iendswith', 'contains', 'icontains', 'in', 'notin', 'isnull', 'isnotnull'``
         """
         try:
-            from querybuilder.operators import operators_mapping
+            from sqlalchemy_json_querybuilder.querybuilder.operators import operators_mapping
             operator_cls = operators_mapping[operator_name]
             self.operator = operator_cls(model_cls, field_name, field_value)
         except KeyError as ke:

@@ -7,8 +7,8 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="sqlalchemy-json-querybuilder",
-    version="1.0.3",
+    name="sqlalchemy_json_querybuilder",
+    version="1.0.5",
     author="Suyash Soni",
     author_email="suyash.soni248@gmail.com",
     description="SqlAlchemy Querybuilder (JSON)",

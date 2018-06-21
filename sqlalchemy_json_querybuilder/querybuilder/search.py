@@ -1,10 +1,10 @@
 __author__ = "Suyash Soni"
 __email__ = "suyash.soni248@gmail.com"
 
-from querybuilder.criterion import Criterion
-from constants.error_codes import ErrorCode
-from commons import commons
-from commons.error_handlers.exceptions.exceptions import ExceptionBuilder, SqlAlchemyException
+from sqlalchemy_json_querybuilder.querybuilder.criterion import Criterion
+from sqlalchemy_json_querybuilder.constants.error_codes import ErrorCode
+from sqlalchemy_json_querybuilder.commons import commons
+from sqlalchemy_json_querybuilder.commons.error_handlers.exceptions.exceptions import ExceptionBuilder, SqlAlchemyException
 
 class Search():
     """

@@ -2,7 +2,7 @@ __author__ = "Suyash Soni"
 __email__ = "suyash.soni248@gmail.com"
 
 from collections import Mapping
-from services.commons.callable import Callable
+from sqlalchemy_json_querybuilder.commons.callable import Callable
 
 class LazyDict(Mapping):
     """
