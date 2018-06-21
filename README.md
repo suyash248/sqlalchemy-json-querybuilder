@@ -92,4 +92,4 @@ results = db.session.query(NotificationGroup).filter(
 
 ## Examples
 
-Examples can be found [here](https://github.com/suyash248/sqlalchemy-json-querybuilder/blob/master/sqlalchemy-json-querybuilder/examples/main.py)
+Examples can be found [here](https://github.com/suyash248/sqlalchemy-json-querybuilder/blob/master/examples/main.py)
