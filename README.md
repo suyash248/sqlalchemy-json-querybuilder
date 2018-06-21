@@ -82,11 +82,11 @@ Recursively creates and evaluates criteria. e.g. Following JSON will be translat
 This query -
 
 results = db.session.query(NotificationGroup).filter(
-        NotificationGroup.group_mappings.any(
-          NotificationGroupMapping.event.has(
-              Event.denotation == "Den2"
-          )
-      ).all()
+            NotificationGroup.group_mappings.any(
+                NotificationGroupMapping.event.has(
+                    Event.denotation == "Den2"
+                )
+          ).all()
  
 ```
 
