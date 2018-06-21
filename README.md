@@ -12,7 +12,27 @@ python3 -m pip install --index-url https://test.pypi.org/simple sqlalchemy-json-
 
 ```python
 
+#-------------- Creating connection & sessison ---------------#
+
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker, scoped_session
+
+Base = declarative_base()
+con_url = 'mysql+pymysql://{username}:{password}@{host}:{port}/{database}'.format(
+    username='root', password='', host='localhost', port=3306, database='test'
+)
+engine = create_engine(con_url, pool_recycle=3600)
+
+# Set up the session
+session_maker = sessionmaker(bind=engine, autoflush=True, autocommit=False, expire_on_commit=True)
+session = scoped_session(session_maker)
+
 #-------------- Models ---------------#
+
+from uuid import uuid4
+from sqlalchemy import Column, Integer, String, Text, ForeignKey
+from sqlalchemy.orm import relationship
 
 def generate_uuid():
     return str(uuid4())
@@ -20,31 +40,22 @@ def generate_uuid():
 class NotificationGroup(Base):
     __tablename__ = "notification_group"
 
-    id = Column("id", db.String(75), primary_key=True, default=generate_uuid)
-    client_id = Column('client_id', db.Integer, nullable=False)
-    denotation = Column('denotation', db.String(250), nullable=False)    # TODO Size, validation
-    description = Column('description', db.String(500))
-    customers_sites = Column('customers_sites', db.TEXT, nullable=False)
+    id = Column("id", String(75), primary_key=True, default=generate_uuid)
+    client_id = Column('client_id', Integer, nullable=False)
+    denotation = Column('denotation', String(250), nullable=False) 
+    description = Column('description', String(500))
+    customers_sites = Column('customers_sites', Text, nullable=False)
     group_mappings = relationship("NotificationGroupMapping", backref="notification_group_mapping", lazy='dynamic')
-
-    __table_args__ = (
-        db.UniqueConstraint('client_id', 'denotation', name='denotation'),
-    )
  
 class NotificationGroupMapping(Base):
     __tablename__ = "notification_group_mapping"
 
-    id = Column("id", db.String(75), primary_key=True, default=generate_uuid)
+    id = Column("id", String(75), primary_key=True, default=generate_uuid)
     notification_group_id = Column(String(75), ForeignKey('notification_group.id'))
     event_id = Column(String(75), nullable=False)
     recipient_id = Column(String(75), ForeignKey('recipient_group.id'))
     recipient = relationship("Recipient")
-
-    is_used = Column(db.Enum(YesNo), default=YesNo.YES)
-
-    __table_args__ = (
-        UniqueConstraint('notification_group_id', 'event_id', 'recipient_id'),
-    )
+    is_used = Column(String(75), nullable=False)
 
 class Recipient(Base):
     __tablename__ = 'recipients'
@@ -53,39 +64,35 @@ class Recipient(Base):
     user_id = Column('user_id', Integer, nullable=False)
     email = Column('email', String(256), nullable=False)
 
-    __table_args__ = (
-        # While adding an unique constraint, always make sure to include `is_deleted` column. e.g. -
-        db.Index('idx_recipients_c_id_u_id_is_deleted', "client_id", "user_id", "is_deleted"),
-    )
-```
-
-```python
-
 #-------------- Query -------------#
+from sqlalchemy_json_querybuilder.querybuilder.search import Search
 
-Recursively creates and evaluates criteria. e.g. Following JSON will be translated to -
-
-{
+filter_by = [{
     "field_name": "NotificationGroup.group_mappings",
     "field_value": {
       "field_name": "NotificationGroupMapping.recipient",
       "field_value": {
         "field_name": "Recipient.email",
-        "field_value": "Sam",
-        "operator": "contains"
+        "field_value": "Sam@gmail.com",
+        "operator": "equals"
       },
       "operator": "has"
     },
     "operator": "any"
-}
+}]
 
-This query -
+order_by = ['-NotificationGroup.client_id']
 
-results = db.session.query(NotificationGroup).filter(
+results = Search(session, "models.notification_group", (NotificationGroup,), filter_by=filter_by, order_by=order_by)
+
+> Above code snippet is equivalent to
+
+results = session.query(NotificationGroup).filter(
             NotificationGroup.group_mappings.any(
-                NotificationGroupMapping.event.has(
-                    Event.denotation == "Den2"
+                NotificationGroupMapping.recipient.has(
+                    Recipient.email=='Sam@gmail.com'
                 )
+            )
           ).all()
  
 ```
