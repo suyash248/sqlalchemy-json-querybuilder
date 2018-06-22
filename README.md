@@ -5,7 +5,7 @@ It introduces a middleware between your application and Sqlalchemy ORM. So input
 ## Installation
 
 ```sh
-python3 -m pip install --index-url https://test.pypi.org/simple sqlalchemy-json-querybuilder
+pip install sqlalchemy-json-querybuilder
 ```
 
 ## Usage
