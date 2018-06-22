@@ -68,6 +68,7 @@ class Recipient(Base):
 
 from sqlalchemy_json_querybuilder.querybuilder.search import Search
 
+# `filter_by` can have multiple criteria objects bundled as a list.
 filter_by = [{
     "field_name": "NotificationGroup.group_mappings",
     "field_value": {
@@ -82,6 +83,7 @@ filter_by = [{
     "operator": "any"
 }]
 
+# `order_by` can have multiple column names. `-` indicates arranging the results in `DESC` order.
 order_by = ['-NotificationGroup.client_id']
 
 results = Search(session, "models.notification_group", (NotificationGroup,), filter_by=filter_by, order_by=order_by)
