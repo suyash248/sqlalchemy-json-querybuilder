@@ -142,6 +142,10 @@ class IContains(ILike):
         ExceptionBuilder(SqlAlchemyException).error(ErrorCode.INVALID_DATA_TYPE, self.field_name,
                                                     message="field_value must be string").throw()
 
+class Match(Operator):
+    def expr(self):
+        return self.model_field.match(self.field_value)
+
 class Any(Operator):
     def expr(self):
         return self.model_field.any(self.field_value)
@@ -170,6 +174,7 @@ operators_mapping = {
     'notin': NotIn,
     'isnull': IsNull,
     'isnotnull': IsNotNull,
+    'match': Match,
     'any': Any,
     'has': Has
 }

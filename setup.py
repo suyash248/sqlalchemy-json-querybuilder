@@ -5,7 +5,7 @@ import setuptools
 
 setuptools.setup(
     name='sqlalchemy_json_querybuilder',
-    version='1.1.6',
+    version='1.1.8',
     author='Suyash Soni',
     author_email='suyash.soni248@gmail.com',
     maintainer="Suyash Soni",
@@ -22,7 +22,7 @@ setuptools.setup(
     )),
     python_requires='>=3',
     install_requires=[
-		'SQLAlchemy'
+		'SQLAlchemy>=1.2.5'
 	],
     classifiers=[
         'Operating System :: OS Independent',

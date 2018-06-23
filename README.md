@@ -305,7 +305,7 @@ Examples can be found [here](https://github.com/suyash248/sqlalchemy-json-queryb
 
 ## TODO
 
-`and`, `or`, `match` operators support.
+`and`, `or` operators support.
 
 ## References
 - [Relationship operators](http://docs.sqlalchemy.org/en/latest/orm/tutorial.html#common-relationship-operators)
