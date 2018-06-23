@@ -1,1 +1,1 @@
-from .errors import Error, handle_db_errors
+from .errors import Error

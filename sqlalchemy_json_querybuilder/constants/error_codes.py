@@ -17,9 +17,6 @@ class ErrorCode(object):
     INVALID_SOURCE = 'INVALID_SOURCE'
 
 class DBErrorCode(ErrorCode):
-    # Default error constants are defined under - pymsql.constants.ER.py. Also see sqlalchemy.exc.py & pymsql.err.py
-    # Error keys must match with the ones defined under pymsql.constants.ER.py, value can be any arbitrary value.
-
     DB_CREATE_EXISTS = 'CREATE_EXISTS'
     SYNTAX_ERROR = 'SYNTAX_ERROR'
     PARSE_ERROR = 'PARSE_ERROR'
