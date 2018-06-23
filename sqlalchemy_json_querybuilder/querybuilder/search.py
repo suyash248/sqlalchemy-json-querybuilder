@@ -1,6 +1,7 @@
 __author__ = "Suyash Soni"
 __email__ = "suyash.soni248@gmail.com"
 
+from sqlalchemy import or_, and_
 from sqlalchemy_json_querybuilder.querybuilder.criterion import Criterion
 from sqlalchemy_json_querybuilder.constants.error_codes import ErrorCode
 from sqlalchemy_json_querybuilder.commons import commons
@@ -50,7 +51,7 @@ class Search():
             "count": count
         }
 
-    def __eval_criteria__(self, field_name, field_value, operator):
+    def __eval_criterion__(self, field_name, field_value, operator):
         """
         Recursively creates and evaluates criteria. e.g. Following JSON will be translated to -
         {
@@ -83,32 +84,45 @@ class Search():
         m_cls = commons.load_class('{}.{}'.format(self.model_module,  m_cls_name))
 
         if type(field_value) == dict:
-            field_value = self.__eval_criteria__(field_value['field_name'], field_value['field_value'], field_value['operator'])
+            field_value = self.__eval_criterion__(field_value['field_name'], field_value['field_value'], field_value['operator'])
         criterion = Criterion(m_cls, field_name, field_value, operator)
         return criterion.eval()
+
+    def __eval_criteria__(self, criteria=()):
+        expressions = []
+        error_fields = []
+        if not isinstance(criteria, (list, tuple, set)): criteria = [criteria]
+        for criterion in criteria:
+            try:
+                evaluated_criterion = self.__eval_criterion__(criterion.get('field_name'), criterion.get('field_value'),
+                                                              criterion.get('operator'))
+                expressions.append(evaluated_criterion)
+            except AttributeError as ae:
+                error_fields.append(criterion.get('field_name', 'unknown'))
+        return expressions, error_fields
 
     def query(self):
         """
         Constructs SQL-alchemy queryset via JSON.
         :return: SQL-alchemy queryset.
         """
-        expressions = []
+        # expressions = []
         error_fields = []
-        for query_obj in self.filter_by:
-            try:
-                evaluated_criterion = self.__eval_criteria__(query_obj.get('field_name'), query_obj.get('field_value'),
-                                      query_obj.get('operator'))
-                expressions.append(evaluated_criterion)
-            except AttributeError as ae:
-                error_fields.append(query_obj['field_name'])
+
+        if isinstance(self.filter_by, (list, tuple, set)):
+            self.filter_by = {'and': [query_obj for query_obj in self.filter_by]}
+
+        and_expressions, and_error_fields = self.__eval_criteria__(self.filter_by.get('and', []))
+        or_expressions, or_error_fields = self.__eval_criteria__(self.filter_by.get('or', []))
+        error_fields.extend(and_error_fields)
+        error_fields.extend(or_error_fields)
 
         if len(error_fields) > 0:
             ExceptionBuilder(SqlAlchemyException).error(ErrorCode.INVALID_FIELD, *error_fields).throw()
 
         ordering_criteria = self.order_by or []
-        # ModelClass.query.order_by(User.popularity.desc(),User.date_created.desc())
-        # data_query_set = self.model_cls.query.filter(*expressions)
-        data_query_set = self.session.query(*self.model_classes).filter(*expressions)
+        data_query_set = self.session.query(*self.model_classes).filter(or_(*or_expressions), and_(*and_expressions))
+
         order_by_expressions = []
         for ordering_criterion in ordering_criteria:
             direction = 'desc' if ordering_criterion.startswith('-') else 'asc'

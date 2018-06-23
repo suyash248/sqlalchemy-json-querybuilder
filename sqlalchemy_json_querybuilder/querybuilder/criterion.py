@@ -38,7 +38,8 @@ class Criterion(object):
             ).throw()
 
     def eval(self):
-        """Evaluates underlying criterion and returns SQLAlchemy expression, this expression will be used
-            later inside ``model_cls.query.filter(*expressions)`` method.
+        """
+        Evaluates underlying criterion and returns SQLAlchemy expression, this expression will be used
+        later inside ``session(model_classes).query.filter(*expressions)`` method.
         """
         return self.operator.expr()

@@ -34,31 +34,19 @@ class NotEquals(Operator):
 
 class LessThan(Operator):
     def expr(self):
-        if isinstance(self.field_value, (int, float)):
-            return self.model_field < self.field_value
-        ExceptionBuilder(SqlAlchemyException).error(ErrorCode.INVALID_DATA_TYPE, self.field_name,
-            message="field_value must be number(int, float)").throw()
+        return self.model_field < self.field_value
 
 class LessThanEq(Operator):
     def expr(self):
-        if isinstance(self.field_value, (int, float)):
-            return self.model_field <= self.field_value
-        ExceptionBuilder(SqlAlchemyException).error(ErrorCode.INVALID_DATA_TYPE, self.field_name,
-                        message="field_value must be number(int, float)").throw()
+        return self.model_field <= self.field_value
 
 class GreaterThan(Operator):
     def expr(self):
-        if isinstance(self.field_value, (int, float)):
-            return self.model_field > self.field_value
-        ExceptionBuilder(SqlAlchemyException).error(ErrorCode.INVALID_DATA_TYPE, self.field_name,
-                        message="field_value must be number(int, float)").throw()
+        return self.model_field > self.field_value
 
 class GreaterThanEq(Operator):
     def expr(self):
-        if isinstance(self.field_value, (int, float)):
-            return self.model_field >= self.field_value
-        ExceptionBuilder(SqlAlchemyException).error(ErrorCode.INVALID_DATA_TYPE, self.field_name,
-                        message="field_value must be number(int, float)").throw()
+        return self.model_field >= self.field_value
 
 class IN(Operator):
     def expr(self):
