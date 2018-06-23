@@ -12,63 +12,65 @@ pip install sqlalchemy-json-querybuilder
 
 - Filter criteria
 
-```python
+    ```python
 
-# Each criterion has 3 attributes: field_name, operator, field_value
+    # Each criterion has 3 attributes: field_name, operator, field_value
 
-criterion_1 = {
-    'field_name': 'MyModel1.some_field',
-    'operator': 'some_operator'  # Supported operators are listed below
-    'field_value': 'some_value'
-}
+    criterion_1 = {
+        'field_name': 'MyModel1.some_field',
+        'operator': 'some_operator'  # Supported operators are listed below
+        'field_value': 'some_value'
+    }
 
-# Once all the critera are defined in the form of dictionary/object, bundle them as follows -
+    # Once all the critera are defined in the form of dictionary/object, bundle them as follows -
 
-filter_by = {
-    'and': [criterion_1, criterion_2,....criterion_n],
-    'or': [other_criterion_1, other_criterion_2,....other_criterion_n]
-}
+    filter_by = {
+        'and': [criterion_1, criterion_2,....criterion_n],
+        'or': [other_criterion_1, other_criterion_2,....other_criterion_n]
+    }
 
-# If there are `and` critera only, then they can be bundled in following 2 ways -
-filter_by = [criterion_1, criterion_2,....criterion_n] 
+    # If there are `and` critera only, then they can be bundled in following 2 ways -
+    filter_by = [criterion_1, criterion_2,....criterion_n] 
 
-# Alternative way to bundle `and` criteria
-filter_by = {
-    'and': [criterion_1, criterion_2,....criterion_n]
-}
+    # Alternative way to bundle `and` criteria
+    filter_by = {
+        'and': [criterion_1, criterion_2,....criterion_n]
+    }
 
-# If there are `or` critera only, then they can be bundled as -
-filter_by = {
-    'or': [criterion_1, criterion_2,....criterion_n]
-}
-```
+    # If there are `or` critera only, then they can be bundled as -
+    filter_by = {
+        'or': [criterion_1, criterion_2,....criterion_n]
+    }
+    
+    ```
 
 - Ordering
 
-```python
-ordering = ['MyModel1.some_field', '-MyModel1.other_field']   # `-` sign indicates DESC order.
-```
+    ```python
+    ordering = ['MyModel1.some_field', '-MyModel1.other_field']   # `-` sign indicates DESC order.
+    ```
 
 - Pagination
 
-Following 3 attributes are used to control pagination:
+    Following 3 attributes are used to control pagination:
 
- - `page`: Current page number.
- - `per_page`: Number of records to be displayed on a page.
- - `all`: Defaults to `False`, make it `True` in order to disable the pagination and fetch all records at once.
+     - `page`: Current page number.
+     - `per_page`: Number of records to be displayed on a page.
+     - `all`: Defaults to `False`, make it `True` in order to disable the pagination and fetch all records at once.
 
 - Querying
 
-```python
-from sqlalchemy_json_querybuilder.querybuilder.search import Search
+    ```python
+    from sqlalchemy_json_querybuilder.querybuilder.search import Search
 
-# session - SqlAlchemy session
-# 'some_module.models' - Package/module where all the models are placed.
-search_obj = Search(session, 'some_module.models', (MyModel1,), filter_by=criteria, order_by=ordering, page=1, per_page=10)
+    # session - SqlAlchemy session
+    # 'some_module.models' - Package/module where all the models are placed.
+    search_obj = Search(session, 'some_module.models', (MyModel1,), filter_by=criteria, 
+                                             order_by=ordering, page=1, per_page=10, all=False)
 
-# Results contains `data` & `count`
-results = search_obj.results
-```
+    # Results contains `data` & `count`
+    results = search_obj.results
+    ```
 
 ## Operators
 
@@ -80,205 +82,205 @@ Following operators are supported -
 
 - #### equals
 
-```python
-filter_by = [dict(field_name='User.name', field_value='ed', operator='equals')]
-```
-is translated to
+    ```python
+    filter_by = [dict(field_name='User.name', field_value='ed', operator='equals')]
+    ```
+    is translated to
 
-```python
-query.filter(User.name == 'ed')
-```
+    ```python
+    query.filter(User.name == 'ed')
+    ```
 
 - #### notequals
 
-```python
-filter_by = [dict(field_name='User.name', field_value='ed', operator='notequals')]
-```
-is translated to
+    ```python
+    filter_by = [dict(field_name='User.name', field_value='ed', operator='notequals')]
+    ```
+    is translated to
 
-```python
-query.filter(User.name != 'ed')
-```
+    ```python
+    query.filter(User.name != 'ed')
+    ```
 
 - #### lt
 
-```python
-filter_by = [dict(field_name='User.age', field_value=18, operator='lt')]
-```
-is translated to
+    ```python
+    filter_by = [dict(field_name='User.age', field_value=18, operator='lt')]
+    ```
+    is translated to
 
-```python
-query.filter(User.name < 18)
-```
+    ```python
+    query.filter(User.name < 18)
+    ```
 
 - #### lte
 
-```python
-filter_by = [dict(field_name='User.age', field_value=18, operator='lte')]
-```
-is translated to
+    ```python
+    filter_by = [dict(field_name='User.age', field_value=18, operator='lte')]
+    ```
+    is translated to
 
-```python
-query.filter(User.name <= 18)
-```
+    ```python
+    query.filter(User.name <= 18)
+    ```
 
 - #### gt
 
-```python
-filter_by = [dict(field_name='User.age', field_value=18, operator='gt')]
-```
-is translated to
+    ```python
+    filter_by = [dict(field_name='User.age', field_value=18, operator='gt')]
+    ```
+    is translated to
 
-```python
-query.filter(User.name > 18)
-```
+    ```python
+    query.filter(User.name > 18)
+    ```
 
 - #### gte
 
-```python
-filter_by = [dict(field_name='User.age', field_value=18, operator='gte')]
-```
-is translated to
+    ```python
+    filter_by = [dict(field_name='User.age', field_value=18, operator='gte')]
+    ```
+    is translated to
 
-```python
-query.filter(User.name >= 18)
-```
+    ```python
+    query.filter(User.name >= 18)
+    ```
 
 - #### in
 
-```python
-filter_by = [dict(field_name='User.name', field_value=['ed', 'wendy', 'jack'], operator='in')]
-```
-is translated to
+    ```python
+    filter_by = [dict(field_name='User.name', field_value=['ed', 'wendy', 'jack'], operator='in')]
+    ```
+    is translated to
 
-```python
-query.filter(User.name.in_(['ed', 'wendy', 'jack']))
-```
+    ```python
+    query.filter(User.name.in_(['ed', 'wendy', 'jack']))
+    ```
 
 - #### notin
 
-```python
-filter_by = [dict(field_name='User.name', field_value=['ed', 'wendy', 'jack'], operator='notin')]
-```
-is translated to
+    ```python
+    filter_by = [dict(field_name='User.name', field_value=['ed', 'wendy', 'jack'], operator='notin')]
+    ```
+    is translated to
 
-```python
-query.filter(~User.name.in_(['ed', 'wendy', 'jack']))
-```
+    ```python
+    query.filter(~User.name.in_(['ed', 'wendy', 'jack']))
+    ```
 
 - #### isnull
 
-```python
-filter_by = [dict(field_name='User.name', field_value=null, operator='isnull')]
-```
-is translated to
+    ```python
+    filter_by = [dict(field_name='User.name', field_value=null, operator='isnull')]
+    ```
+    is translated to
 
-```python
-query.filter(User.name == None)
+    ```python
+    query.filter(User.name == None)
 
-# alternatively, if pep8/linters are a concern
-query.filter(User.name.is_(None))
-```
+    # alternatively, if pep8/linters are a concern
+    query.filter(User.name.is_(None))
+    ```
 
 - #### isnotnull
 
-```python
-filter_by = [dict(field_name='User.name', field_value=null, operator='isnotnull')]
-```
+    ```python
+    filter_by = [dict(field_name='User.name', field_value=null, operator='isnotnull')]
+    ```
 
-is translated to
+    is translated to
 
-```python
-query.filter(User.name != None)
+    ```python
+    query.filter(User.name != None)
 
-# alternatively, if pep8/linters are a concern
-query.filter(User.name.isnot(None))
-```
+    # alternatively, if pep8/linters are a concern
+    query.filter(User.name.isnot(None))
+    ```
 
 - #### contains
 
-```python
-filter_by = [dict(field_name='User.name', field_value='ed', operator='contains')]
-```
-is translated to
+    ```python
+    filter_by = [dict(field_name='User.name', field_value='ed', operator='contains')]
+    ```
+    is translated to
 
-```python
-query.filter(User.name.like('%ed%'))
-```
+    ```python
+    query.filter(User.name.like('%ed%'))
+    ```
 
 - #### startswith
 
-```python
-filter_by = [dict(field_name='User.name', field_value='ed', operator='startswith')]
-```
-is translated to
+    ```python
+    filter_by = [dict(field_name='User.name', field_value='ed', operator='startswith')]
+    ```
+    is translated to
 
-```python
-query.filter(User.name.like('ed%'))
-```
+    ```python
+    query.filter(User.name.like('ed%'))
+    ```
 
 - #### endswith
 
-```python
-filter_by = [dict(field_name='User.name', field_value='ed', operator='endswith')]
-```
-is translated to
+    ```python
+    filter_by = [dict(field_name='User.name', field_value='ed', operator='endswith')]
+    ```
+    is translated to
 
-```python
-query.filter(User.name.like('%ed'))
-```
+    ```python
+    query.filter(User.name.like('%ed'))
+    ```
 
 - #### match
 
-```python
-filter_by = [dict(field_name='User.name', field_value='wendy', operator='match')]
-```
-is translated to
+    ```python
+    filter_by = [dict(field_name='User.name', field_value='wendy', operator='match')]
+    ```
+    is translated to
 
-```python
-query.filter(User.name.match('wendy'))
-```
+    ```python
+    query.filter(User.name.match('wendy'))
+    ```
 
 - #### any
 
-```python
-filter_by = [{
-    'field_name': 'User.addresses',
-    'operator': 'any',
-    'field_value': {
-        'field_name': 'Address.email_address',
-        'operator': 'equals',
-        'field_value': 'bar'
-    }
-}]
-```
-is translated to
+    ```python
+    filter_by = [{
+        'field_name': 'User.addresses',
+        'operator': 'any',
+        'field_value': {
+            'field_name': 'Address.email_address',
+            'operator': 'equals',
+            'field_value': 'bar'
+        }
+    }]
+    ```
+    is translated to
 
-```python
-query.filter(User.addresses.any(Address.email_address == 'bar'))
+    ```python
+    query.filter(User.addresses.any(Address.email_address == 'bar'))
 
-# also takes keyword arguments:
-query.filter(User.addresses.any(email_address='bar'))
-```
+    # also takes keyword arguments:
+    query.filter(User.addresses.any(email_address='bar'))
+    ```
 
 - #### has
 
-```python
-filter_by = [{
-    'field_name': 'Address.user',
-    'operator': 'has',
-    'field_value': {
-        'field_name': 'User.name',
-        'operator': 'equals',
-        'field_value': 'bar'
-    }
-}]
-```
-is translated to
+    ```python
+    filter_by = [{
+        'field_name': 'Address.user',
+        'operator': 'has',
+        'field_value': {
+            'field_name': 'User.name',
+            'operator': 'equals',
+            'field_value': 'bar'
+        }
+    }]
+    ```
+    is translated to
 
-```python
-query.filter(Address.user.has(name='ed'))
-```
+    ```python
+    query.filter(Address.user.has(name='ed'))
+    ```
 
 ## Examples
 
