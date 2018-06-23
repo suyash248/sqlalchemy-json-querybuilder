@@ -1,6 +1,6 @@
 # Sqlalchemy JSON Querybuilder
 
-It introduces a middleware between your application and Sqlalchemy ORM. So input to ORM can be provided in the form JSON/Objects. It supports following operators -
+It introduces a middleware between your application and Sqlalchemy ORM. So input to ORM can be provided in the form JSON/Objects.
 
 # Operators
 
