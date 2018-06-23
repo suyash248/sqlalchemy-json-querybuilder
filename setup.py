@@ -5,7 +5,7 @@ import setuptools
 
 setuptools.setup(
     name='sqlalchemy_json_querybuilder',
-    version='1.1.8',
+    version='1.1.9',
     author='Suyash Soni',
     author_email='suyash.soni248@gmail.com',
     maintainer="Suyash Soni",
