@@ -11,8 +11,8 @@ pip install sqlalchemy-json-querybuilder
 ## Features
 
 - Multiple [operators](https://github.com/suyash248/sqlalchemy-json-querybuilder/blob/master/README.md#operators)' support.
-    - Support for [Filter operators](http://docs.sqlalchemy.org/en/latest/orm/tutorial.html#common-filter-operators)
-    - Support for [Relationship operators](http://docs.sqlalchemy.org/en/latest/orm/tutorial.html#common-relationship-operators) i.e. `any`, `has`
+    - Support for [Filter operators](http://docs.sqlalchemy.org/en/latest/orm/tutorial.html#common-filter-operators).
+    - Support for [Relationship operators](http://docs.sqlalchemy.org/en/latest/orm/tutorial.html#common-relationship-operators) i.e. `any`, `has`.
     
 - Filter in relationship as well as in collections.
 
@@ -23,9 +23,18 @@ pip install sqlalchemy-json-querybuilder
 - Supports `AND` & `OR`, so multiple query criterion can be glued and bundled using `AND` or `OR` as follows -
     ```python
     criteria = {
-        'and': [criterion_dict_1, criterion_dict_1, ... criterion_dict_n],
-        'or': [criterion_dict_10, criterion_dict_11, ... criterion_dict_n]
+        'and': [and_criterion_dict_1, and_criterion_dict_2, ... and_criterion_dict_n],
+        'or': [or_criterion_dict_1, or_criterion_dict_2, ... or_criterion_dict_n]
     }
+    ```
+    
+    which is equivalent to - 
+    
+    ```sql
+    SELECT field1, field2..fieldN from some_table WHERE
+          (and_criterion_dict_1 AND and_criterion_dict_1 AND and_criterion_dict_n)
+                                    AND
+          (or_criterion_dict_1 OR or_criterion_dict_1 OR or_criterion_dict_1)
     ```
 
 ## Usage
