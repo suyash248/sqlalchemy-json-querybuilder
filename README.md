@@ -2,7 +2,13 @@
 
 It introduces a middleware between your application and Sqlalchemy ORM. So input to ORM can be provided in the form JSON/Objects.
 
-# Operators
+## Installation
+
+```sh
+pip install sqlalchemy-json-querybuilder
+```
+
+## Operators
 
 Following operators are supported - 
 
@@ -10,7 +16,7 @@ Following operators are supported -
 
 > Note - `i` stands for `case insensitive`.
 
-### equals
+#### equals
 
 ```python
 filter_by = [dict(field_name='User.name', field_value='ed', operator='equals')]
@@ -21,7 +27,7 @@ is translated to
 query.filter(User.name == 'ed')
 ```
 
-### notequals
+#### notequals
 
 ```python
 filter_by = [dict(field_name='User.name', field_value='ed', operator='notequals')]
@@ -32,7 +38,7 @@ is translated to
 query.filter(User.name != 'ed')
 ```
 
-### lt
+#### lt
 
 ```python
 filter_by = [dict(field_name='User.age', field_value=18, operator='lt')]
@@ -43,7 +49,7 @@ is translated to
 query.filter(User.name < 18)
 ```
 
-### lte
+#### lte
 
 ```python
 filter_by = [dict(field_name='User.age', field_value=18, operator='lte')]
@@ -54,7 +60,7 @@ is translated to
 query.filter(User.name <= 18)
 ```
 
-### gt
+#### gt
 
 ```python
 filter_by = [dict(field_name='User.age', field_value=18, operator='gt')]
@@ -65,7 +71,7 @@ is translated to
 query.filter(User.name > 18)
 ```
 
-### gte
+#### gte
 
 ```python
 filter_by = [dict(field_name='User.age', field_value=18, operator='gte')]
@@ -76,7 +82,7 @@ is translated to
 query.filter(User.name >= 18)
 ```
 
-### in
+#### in
 
 ```python
 filter_by = [dict(field_name='User.name', field_value=['ed', 'wendy', 'jack'], operator='in')]
@@ -87,7 +93,7 @@ is translated to
 query.filter(User.name.in_(['ed', 'wendy', 'jack']))
 ```
 
-### notin
+#### notin
 
 ```python
 filter_by = [dict(field_name='User.name', field_value=['ed', 'wendy', 'jack'], operator='notin')]
@@ -98,7 +104,7 @@ is translated to
 query.filter(~User.name.in_(['ed', 'wendy', 'jack']))
 ```
 
-### isnull
+#### isnull
 
 ```python
 filter_by = [dict(field_name='User.name', field_value=null, operator='isnull')]
@@ -112,7 +118,7 @@ query.filter(User.name == None)
 query.filter(User.name.is_(None))
 ```
 
-### isnotnull
+#### isnotnull
 
 ```python
 filter_by = [dict(field_name='User.name', field_value=null, operator='isnotnull')]
@@ -127,7 +133,7 @@ query.filter(User.name != None)
 query.filter(User.name.isnot(None))
 ```
 
-### contains
+#### contains
 
 ```python
 filter_by = [dict(field_name='User.name', field_value='ed', operator='contains')]
@@ -138,7 +144,7 @@ is translated to
 query.filter(User.name.like('%ed%'))
 ```
 
-### startswith
+#### startswith
 
 ```python
 filter_by = [dict(field_name='User.name', field_value='ed', operator='startswith')]
@@ -149,7 +155,7 @@ is translated to
 query.filter(User.name.like('ed%'))
 ```
 
-### endswith
+#### endswith
 
 ```python
 filter_by = [dict(field_name='User.name', field_value='ed', operator='endswith')]
@@ -160,7 +166,7 @@ is translated to
 query.filter(User.name.like('%ed'))
 ```
 
-### any
+#### any
 
 ```python
 filter_by = [{
@@ -182,11 +188,11 @@ query.filter(User.addresses.any(Address.email_address == 'bar'))
 query.filter(User.addresses.any(email_address='bar'))
 ```
 
-### has
+#### has
 
 ```python
 filter_by = [{
-    `field_name': 'Address.user',
+    'field_name': 'Address.user',
     'operator': 'has',
     'field_value': {
         'field_name': 'User.name',
@@ -199,12 +205,6 @@ is translated to
 
 ```python
 query.filter(Address.user.has(name='ed'))
-```
-    
-## Installation
-
-```sh
-pip install sqlalchemy-json-querybuilder
 ```
 
 ## Usage
