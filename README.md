@@ -10,7 +10,7 @@ pip install sqlalchemy-json-querybuilder
 
 # Usage
 
-Filter criteria -
+- Filter criteria
 
 ```python
 
@@ -43,13 +43,13 @@ filter_by = {
 }
 ```
 
-Ordering -
+- Ordering
 
 ```python
 ordering = ['MyModel1.some_field', '-MyModel1.other_field']   # `-` sign indicates DESC order.
 ```
 
-Pagination - 
+- Pagination
 
 Following 3 attributes are used to control pagination:
 
@@ -57,7 +57,7 @@ Following 3 attributes are used to control pagination:
  - `per_page`: Number of records to be displayed on a page.
  - `all`: Defaults to `False`, make it `True` in order to disable the pagination and fetch all records at once.
 
-Querying -
+- Querying
 
 ```python
 from sqlalchemy_json_querybuilder.querybuilder.search import Search
