@@ -8,6 +8,26 @@ It introduces a middleware between your application and Sqlalchemy ORM. So input
 pip install sqlalchemy-json-querybuilder
 ```
 
+## Features
+
+- Multiple [operators](https://github.com/suyash248/sqlalchemy-json-querybuilder/blob/master/README.md#operators)' support.
+    - Support for [Filter operators](http://docs.sqlalchemy.org/en/latest/orm/tutorial.html#common-filter-operators)
+    - Support for [Relationship operators](http://docs.sqlalchemy.org/en/latest/orm/tutorial.html#common-relationship-operators) i.e. `any`, `has`
+    
+- Filter in relationship as well as in collections.
+
+- Pagination using windowing & slicing. Pagination can be disabled if needed.
+
+- Ordering/Sorting in `ASC` & `DESC` order.
+
+- Supports `AND` & `OR`, so multiple query criterion can be glued and bundled using `AND` or `OR` as follows -
+    ```python
+    criteria = {
+        'and': [criterion_dict_1, criterion_dict_1, ... criterion_dict_n],
+        'or': [criterion_dict_10, criterion_dict_11, ... criterion_dict_n]
+    }
+    ```
+
 ## Usage
 
 - #### Filter criteria
@@ -378,7 +398,3 @@ results = session.query(NotificationGroup).filter(
           ).all()
  
 ```
-
-## References
-- [Relationship operators](http://docs.sqlalchemy.org/en/latest/orm/tutorial.html#common-relationship-operators)
-- [Filter operators](http://docs.sqlalchemy.org/en/latest/orm/tutorial.html#common-filter-operators)
