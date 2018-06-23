@@ -15,6 +15,7 @@ Filter criteria -
 ```python
 
 # Each criterion has 3 attributes: field_name, operator, field_value
+
 criterion_1 = {
     'field_name': 'MyModel1.some_field',
     'operator': 'some_operator'  # Supported operators are listed below
@@ -28,10 +29,10 @@ filter_by = {
     'or': [other_criterion_1, other_criterion_2,....other_criterion_n]
 }
 
-# If there are `and` critera only, then they can be bundled as -
+# If there are `and` critera only, then they can be bundled in following 2 ways -
 filter_by = [criterion_1, criterion_2,....criterion_n] 
 
-# Or then can be bundled as -
+# Alternative way to bundle `and` criteria
 filter_by = {
     'and': [criterion_1, criterion_2,....criterion_n]
 }
@@ -65,6 +66,8 @@ from sqlalchemy_json_querybuilder.querybuilder.search import Search
 # 'some_module.models' - Package/module where all the models are placed.
 search_obj = Search(session, 'some_module.models', (MyModel1,), filter_by=criteria, order_by=ordering, page=1, per_page=10)
 
+# Results contains `data` & `count`
+results = search_obj.results
 ```
 
 ## Operators
@@ -358,8 +361,9 @@ filter_by = [{
 # `order_by` can have multiple column names. `-` indicates arranging the results in `DESC` order.
 order_by = ['-NotificationGroup.client_id']
 
+# returns `results` dict containing `data` & `count`
 results = Search(session, "models.notification_group", (NotificationGroup,), 
-                filter_by=filter_by, order_by=order_by, page=1, per_page=5)
+                filter_by=filter_by, order_by=order_by, page=1, per_page=5).results
 
 # Above code snippet is equivalent to
 
