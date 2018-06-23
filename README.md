@@ -8,6 +8,205 @@ It introduces a middleware between your application and Sqlalchemy ORM. So input
 pip install sqlalchemy-json-querybuilder
 ```
 
+## Operators
+
+Following operators are supported - 
+
+`equals`, `notequals`, `lt`, `lte`, `gt`, `gte`, `like`, `ilike`, `startswith`, `istartswith`, `endswith`, `iendswith`, `contains`, `icontains`, `in`, `notin`, `isnull`, `isnotnull`, `any`, `has`
+
+> Note - `i` stands for `case insensitive`.
+
+- #### equals
+
+```python
+filter_by = [dict(field_name='User.name', field_value='ed', operator='equals')]
+```
+is translated to
+
+```python
+query.filter(User.name == 'ed')
+```
+
+- #### notequals
+
+```python
+filter_by = [dict(field_name='User.name', field_value='ed', operator='notequals')]
+```
+is translated to
+
+```python
+query.filter(User.name != 'ed')
+```
+
+- #### lt
+
+```python
+filter_by = [dict(field_name='User.age', field_value=18, operator='lt')]
+```
+is translated to
+
+```python
+query.filter(User.name < 18)
+```
+
+- #### lte
+
+```python
+filter_by = [dict(field_name='User.age', field_value=18, operator='lte')]
+```
+is translated to
+
+```python
+query.filter(User.name <= 18)
+```
+
+- #### gt
+
+```python
+filter_by = [dict(field_name='User.age', field_value=18, operator='gt')]
+```
+is translated to
+
+```python
+query.filter(User.name > 18)
+```
+
+- #### gte
+
+```python
+filter_by = [dict(field_name='User.age', field_value=18, operator='gte')]
+```
+is translated to
+
+```python
+query.filter(User.name >= 18)
+```
+
+- #### in
+
+```python
+filter_by = [dict(field_name='User.name', field_value=['ed', 'wendy', 'jack'], operator='in')]
+```
+is translated to
+
+```python
+query.filter(User.name.in_(['ed', 'wendy', 'jack']))
+```
+
+- #### notin
+
+```python
+filter_by = [dict(field_name='User.name', field_value=['ed', 'wendy', 'jack'], operator='notin')]
+```
+is translated to
+
+```python
+query.filter(~User.name.in_(['ed', 'wendy', 'jack']))
+```
+
+- #### isnull
+
+```python
+filter_by = [dict(field_name='User.name', field_value=null, operator='isnull')]
+```
+is translated to
+
+```python
+query.filter(User.name == None)
+
+# alternatively, if pep8/linters are a concern
+query.filter(User.name.is_(None))
+```
+
+- #### isnotnull
+
+```python
+filter_by = [dict(field_name='User.name', field_value=null, operator='isnotnull')]
+```
+
+is translated to
+
+```python
+query.filter(User.name != None)
+
+# alternatively, if pep8/linters are a concern
+query.filter(User.name.isnot(None))
+```
+
+- #### contains
+
+```python
+filter_by = [dict(field_name='User.name', field_value='ed', operator='contains')]
+```
+is translated to
+
+```python
+query.filter(User.name.like('%ed%'))
+```
+
+- #### startswith
+
+```python
+filter_by = [dict(field_name='User.name', field_value='ed', operator='startswith')]
+```
+is translated to
+
+```python
+query.filter(User.name.like('ed%'))
+```
+
+- #### endswith
+
+```python
+filter_by = [dict(field_name='User.name', field_value='ed', operator='endswith')]
+```
+is translated to
+
+```python
+query.filter(User.name.like('%ed'))
+```
+
+- #### any
+
+```python
+filter_by = [{
+    'field_name': 'User.addresses',
+    'operator': 'any',
+    'field_value': {
+        'field_name': 'Address.email_address',
+        'operator': 'equals',
+        'field_value': 'bar'
+    }
+}]
+```
+is translated to
+
+```python
+query.filter(User.addresses.any(Address.email_address == 'bar'))
+
+# also takes keyword arguments:
+query.filter(User.addresses.any(email_address='bar'))
+```
+
+- #### has
+
+```python
+filter_by = [{
+    'field_name': 'Address.user',
+    'operator': 'has',
+    'field_value': {
+        'field_name': 'User.name',
+        'operator': 'equals',
+        'field_value': 'bar'
+    }
+}]
+```
+is translated to
+
+```python
+query.filter(Address.user.has(name='ed'))
+```
+
 ## Usage
 
 ```python
@@ -68,6 +267,7 @@ class Recipient(Base):
 
 from sqlalchemy_json_querybuilder.querybuilder.search import Search
 
+# `filter_by` can have multiple criteria objects bundled as a list.
 filter_by = [{
     "field_name": "NotificationGroup.group_mappings",
     "field_value": {
@@ -82,6 +282,7 @@ filter_by = [{
     "operator": "any"
 }]
 
+# `order_by` can have multiple column names. `-` indicates arranging the results in `DESC` order.
 order_by = ['-NotificationGroup.client_id']
 
 results = Search(session, "models.notification_group", (NotificationGroup,), filter_by=filter_by, order_by=order_by)
@@ -101,3 +302,11 @@ results = session.query(NotificationGroup).filter(
 ## Examples
 
 Examples can be found [here](https://github.com/suyash248/sqlalchemy-json-querybuilder/blob/master/examples/main.py)
+
+## TODO
+
+`and`, `or`, `match` operators support.
+
+## References
+- [Relationship operators](http://docs.sqlalchemy.org/en/latest/orm/tutorial.html#common-relationship-operators)
+- [Filter operators](http://docs.sqlalchemy.org/en/latest/orm/tutorial.html#common-filter-operators)
