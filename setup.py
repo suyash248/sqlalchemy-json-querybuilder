@@ -5,9 +5,10 @@ import setuptools
 
 setuptools.setup(
     name='sqlalchemy_json_querybuilder',
-    version='1.1.4',
+    version='1.1.5',
     author='Suyash Soni',
     author_email='suyash.soni248@gmail.com',
+    maintainer="Suyash Soni",
     description='Querybuilder to use SqlAlchemy ORM by feeding JSON/object as input',
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
