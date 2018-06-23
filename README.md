@@ -1,7 +1,206 @@
 # Sqlalchemy JSON Querybuilder
 
-It introduces a middleware between your application and Sqlalchemy ORM. So input to ORM can be provided in the form JSON/Objects.
+It introduces a middleware between your application and Sqlalchemy ORM. So input to ORM can be provided in the form JSON/Objects. It supports following operators -
 
+# Operators
+
+Following operators are supported - 
+
+`equals`, `notequals`, `lt`, `lte`, `gt`, `gte`, `like`, `ilike`, `startswith`, `istartswith`, `endswith`, `iendswith`, `contains`, `icontains`, `in`, `notin`, `isnull`, `isnotnull`, `any`, `has`
+
+> Note - `i` stands for `case insensitive`.
+
+### equals
+
+```python
+filter_by = [dict(field_name='User.name', field_value='ed', operator='equals')]
+```
+is translated to
+
+```python
+query.filter(User.name == 'ed')
+```
+
+### notequals
+
+```python
+filter_by = [dict(field_name='User.name', field_value='ed', operator='notequals')]
+```
+is translated to
+
+```python
+query.filter(User.name != 'ed')
+```
+
+### lt
+
+```python
+filter_by = [dict(field_name='User.age', field_value=18, operator='lt')]
+```
+is translated to
+
+```python
+query.filter(User.name < 18)
+```
+
+### lte
+
+```python
+filter_by = [dict(field_name='User.age', field_value=18, operator='lte')]
+```
+is translated to
+
+```python
+query.filter(User.name <= 18)
+```
+
+### gt
+
+```python
+filter_by = [dict(field_name='User.age', field_value=18, operator='gt')]
+```
+is translated to
+
+```python
+query.filter(User.name > 18)
+```
+
+### gte
+
+```python
+filter_by = [dict(field_name='User.age', field_value=18, operator='gte')]
+```
+is translated to
+
+```python
+query.filter(User.name >= 18)
+```
+
+### in
+
+```python
+filter_by = [dict(field_name='User.name', field_value=['ed', 'wendy', 'jack'], operator='in')]
+```
+is translated to
+
+```python
+query.filter(User.name.in_(['ed', 'wendy', 'jack']))
+```
+
+### notin
+
+```python
+filter_by = [dict(field_name='User.name', field_value=['ed', 'wendy', 'jack'], operator='notin')]
+```
+is translated to
+
+```python
+query.filter(~User.name.in_(['ed', 'wendy', 'jack']))
+```
+
+### isnull
+
+```python
+filter_by = [dict(field_name='User.name', field_value=null, operator='isnull')]
+```
+is translated to
+
+```python
+query.filter(User.name == None)
+
+# alternatively, if pep8/linters are a concern
+query.filter(User.name.is_(None))
+```
+
+### isnotnull
+
+```python
+filter_by = [dict(field_name='User.name', field_value=null, operator='isnotnull')]
+```
+
+is translated to
+
+```python
+query.filter(User.name != None)
+
+# alternatively, if pep8/linters are a concern
+query.filter(User.name.isnot(None))
+```
+
+### contains
+
+```python
+filter_by = [dict(field_name='User.name', field_value='ed', operator='contains')]
+```
+is translated to
+
+```python
+query.filter(User.name.like('%ed%'))
+```
+
+### startswith
+
+```python
+filter_by = [dict(field_name='User.name', field_value='ed', operator='startswith')]
+```
+is translated to
+
+```python
+query.filter(User.name.like('ed%'))
+```
+
+### endswith
+
+```python
+filter_by = [dict(field_name='User.name', field_value='ed', operator='endswith')]
+```
+is translated to
+
+```python
+query.filter(User.name.like('%ed'))
+```
+
+### any
+
+```python
+filter_by = [{
+    'field_name': 'User.addresses',
+    'operator': 'any',
+    'field_value': {
+        'field_name': 'Address.email_address',
+        'operator': 'equals',
+        'field_value': 'bar'
+    }
+}]
+```
+is translated to
+
+```python
+query.filter(User.addresses.any(Address.email_address == 'bar'))
+
+# also takes keyword arguments:
+query.filter(User.addresses.any(email_address='bar'))
+```
+
+### has
+
+```python
+filter_by = [{
+    `field_name': 'Address.user',
+    'operator': 'has',
+    'field_value': {
+        'field_name': 'User.name',
+        'operator': 'equals',
+        'field_value': 'bar'
+    }
+}]
+```
+is translated to
+
+```python
+query.filter(Address.user.has(name='ed'))
+```
+    
 ## Installation
 
 ```sh
