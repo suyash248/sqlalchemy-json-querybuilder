@@ -8,7 +8,7 @@ It introduces a middleware between your application and Sqlalchemy ORM. So input
 pip install sqlalchemy-json-querybuilder
 ```
 
-# Usage
+## Usage
 
 - Filter criteria
 
