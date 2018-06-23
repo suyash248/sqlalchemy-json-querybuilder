@@ -106,7 +106,7 @@ def filter_and_or():
     }
 
     # Note - and_expressions & or_expressions are glued via AND operator i.e. (all_and_exprs) AND (all_or_exprs)
-    # SELECT field1, field2..fieldN from some_table WHERE
+    # SELECT field1, field2..fieldN FROM some_table WHERE
     #               (and_expr1 AND and_expr2 AND and_exprN)
     #                             AND
     #               (or_exp1 OR or_expr2 OR or_exprN)
