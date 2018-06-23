@@ -8,6 +8,65 @@ It introduces a middleware between your application and Sqlalchemy ORM. So input
 pip install sqlalchemy-json-querybuilder
 ```
 
+# Usage
+
+Filter criteria -
+
+```python
+
+# Each criterion has 3 attributes: field_name, operator, field_value
+criterion_1 = {
+    'field_name': 'MyModel1.some_field',
+    'operator': 'some_operator'  # Supported operators are listed below
+    'field_value': 'some_value'
+}
+
+# Once all the critera are defined in the form of dictionary/object, bundle them as follows -
+
+filter_by = {
+    'and': [criterion_1, criterion_2,....criterion_n],
+    'or': [other_criterion_1, other_criterion_2,....other_criterion_n]
+}
+
+# If there are `and` critera only, then they can be bundled as -
+filter_by = [criterion_1, criterion_2,....criterion_n] 
+
+# Or then can be bundled as -
+filter_by = {
+    'and': [criterion_1, criterion_2,....criterion_n]
+}
+
+# If there are `or` critera only, then they can be bundled as -
+filter_by = {
+    'or': [criterion_1, criterion_2,....criterion_n]
+}
+```
+
+Ordering -
+
+```python
+ordering = ['MyModel1.some_field', '-MyModel1.other_field']   # `-` sign indicates DESC order.
+```
+
+Pagination - 
+
+Following 3 attributes are used to control pagination:
+
+ - `page`: Current page number.
+ - `per_page`: Number of records to be displayed on a page.
+ - `all`: Defaults to `False`, make it `True` in order to disable the pagination and fetch all records at once.
+
+Querying -
+
+```python
+from sqlalchemy_json_querybuilder.querybuilder.search import Search
+
+# session - SqlAlchemy session
+# 'some_module.models' - Package/module where all the models are placed.
+search_obj = Search(session, 'some_module.models', (MyModel1,), filter_by=criteria, order_by=ordering, page=1, per_page=10)
+
+```
+
 ## Operators
 
 Following operators are supported - 
@@ -218,7 +277,10 @@ is translated to
 query.filter(Address.user.has(name='ed'))
 ```
 
-## Usage
+## Examples
+
+Some examples are given below. Mote examples can be found [here](https://github.com/suyash248/sqlalchemy-json-querybuilder/blob/master/examples/main.py).
+
 
 ```python
 
@@ -310,9 +372,6 @@ results = session.query(NotificationGroup).filter(
           ).all()
  
 ```
-
-## Examples
-Examples can be found [here](https://github.com/suyash248/sqlalchemy-json-querybuilder/blob/master/examples/main.py)
 
 ## References
 - [Relationship operators](http://docs.sqlalchemy.org/en/latest/orm/tutorial.html#common-relationship-operators)
