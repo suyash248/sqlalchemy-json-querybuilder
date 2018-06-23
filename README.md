@@ -12,7 +12,7 @@ pip install sqlalchemy-json-querybuilder
 
 Following operators are supported - 
 
-`equals`, `notequals`, `lt`, `lte`, `gt`, `gte`, `like`, `ilike`, `startswith`, `istartswith`, `endswith`, `iendswith`, `contains`, `icontains`, `in`, `notin`, `isnull`, `isnotnull`, `any`, `has`
+`equals`, `notequals`, `lt`, `lte`, `gt`, `gte`, `like`, `ilike`, `startswith`, `istartswith`, `endswith`, `iendswith`, `contains`, `icontains`, `match`, `in`, `notin`, `isnull`, `isnotnull`, `any`, `has`
 
 > Note - `i` stands for `case insensitive`.
 
@@ -166,6 +166,17 @@ is translated to
 query.filter(User.name.like('%ed'))
 ```
 
+- #### match
+
+```python
+filter_by = [dict(field_name='User.name', field_value='wendy', operator='match')]
+```
+is translated to
+
+```python
+query.filter(User.name.match('wendy'))
+```
+
 - #### any
 
 ```python
@@ -285,7 +296,8 @@ filter_by = [{
 # `order_by` can have multiple column names. `-` indicates arranging the results in `DESC` order.
 order_by = ['-NotificationGroup.client_id']
 
-results = Search(session, "models.notification_group", (NotificationGroup,), filter_by=filter_by, order_by=order_by)
+results = Search(session, "models.notification_group", (NotificationGroup,), 
+                filter_by=filter_by, order_by=order_by, page=1, per_page=5)
 
 # Above code snippet is equivalent to
 
@@ -300,12 +312,7 @@ results = session.query(NotificationGroup).filter(
 ```
 
 ## Examples
-
 Examples can be found [here](https://github.com/suyash248/sqlalchemy-json-querybuilder/blob/master/examples/main.py)
-
-## TODO
-
-`and`, `or` operators support.
 
 ## References
 - [Relationship operators](http://docs.sqlalchemy.org/en/latest/orm/tutorial.html#common-relationship-operators)
