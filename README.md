@@ -105,7 +105,31 @@ pip install sqlalchemy-json-querybuilder
 
 Following operators are supported - 
 
-`equals`, `notequals`, `lt`, `lte`, `gt`, `gte`, `like`, `ilike`, `startswith`, `istartswith`, `endswith`, `iendswith`, `contains`, `icontains`, `match`, `in`, `notin`, `isnull`, `isnotnull`, `any`, `has`
+`equals`, `eq`, `==`, `=`
+
+`not_equals`, `ne`, `!=`, `~=` 
+
+`less_than`, `lt`, `<`
+
+`less_than_equals`, `lte`, `<=`
+
+`greater_than`, `gt`, `>`
+
+`greater_than_equals`, `gte`, `>=`
+
+`like`, `ilike`, 
+
+`startswith`, `istartswith`, `endswith`, `iendswith`, 
+
+`contains`, `icontains`, 
+
+`match`, 
+
+`in`, `notin`, 
+
+`isnull`, `isnotnull`, 
+
+`any`, `has`
 
 > Note - `i` stands for `case insensitive`.
 
@@ -123,7 +147,7 @@ Following operators are supported -
 - #### notequals
 
     ```python
-    filter_by = [dict(field_name='User.name', field_value='ed', operator='notequals')]
+    filter_by = [dict(field_name='User.name', field_value='ed', operator='not_equals')]
     ```
     is translated to
 
