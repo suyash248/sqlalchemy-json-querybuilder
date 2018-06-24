@@ -160,19 +160,24 @@ __OPERATORS_MAPPING__ = {
     '==': __Equals__,
 
     'notequals': __NotEquals__,
+    'not_equals': __NotEquals__,
     'ne': __NotEquals__,
     '!=': __NotEquals__,
     '~=': __NotEquals__,
 
+    'less_than': __LessThan__,
     'lt': __LessThan__,
     '<': __LessThan__,
 
+    'less_than_equals': __LessThanEq__,
     'lte': __LessThanEq__,
     '<=': __LessThanEq__,
 
+    'greater_than': __GreaterThan__,
     'gt': __GreaterThan__,
     '>': __GreaterThan__,
 
+    'greater_than_equals': __GreaterThanEq__,
     'gte': __GreaterThanEq__,
     '>=': __GreaterThanEq__,
 
