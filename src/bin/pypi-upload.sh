@@ -1,19 +1,18 @@
 #!/usr/bin/env bash
 
+rm -rf lib/*.egg-info/
 rm -rf dist build sqlalchemy_json_querybuilder.egg-info
 
-PY_REPO_URL=''
+PY_REPO='pypi'
 PYPI_USERNAME=''
 IS_DIST=0
 IS_UPLOAD=0
-UPLOAD_DEST='pypi.org'
 
 # Parsing cmd-args
 while (( "$#" )); do
   case "$1" in
     -t|--test)
-      UPLOAD_DEST='test.pypi.org'
-      PY_REPO_URL='--repository-url https://test.pypi.org/legacy/ dist/*'
+      PY_REPO='test.pypi'
       shift 1
       ;;
     -d|--dist)
@@ -34,8 +33,6 @@ while (( "$#" )); do
       ;;
     -*|--*=) # unsupported flags
       echo "Error: Unsupported flag $1" >&2
-      echo "Usage:"
-      echo "gunicorn.sh --host <hostname> --port <port> --virtualenv <virtual-env-name> --mode <mode> --workers <num> --daemon"
       exit 1
       ;;
     *) # preserve positional arguments
@@ -44,14 +41,24 @@ while (( "$#" )); do
   esac
 done
 
+export PY_REPO="$PY_REPO"
+
 if [[ "$IS_DIST" == 1 ]]
 then
-    echo "Creating dist..."
+    echo "[SETUP] Creating dist..."
     python3 setup.py sdist bdist_wheel
 fi
 
 if [[ "$IS_UPLOAD" == 1 ]]
 then
-    echo "Uploading to $UPLOAD_DEST"
-    twine upload $PY_REPO_URL dist/* -u $PYPI_USERNAME
+    echo "[SETUP] Uploading to $PY_REPO"
+    if [[ "$PY_REPO" == 'pypi' ]]
+    then
+        twine upload dist/* -u $PYPI_USERNAME
+    else
+        twine upload --repository-url https://test.pypi.org/legacy/ dist/* -u $PYPI_USERNAME
+    fi
 fi
+
+rm -rf lib/*.egg-info/
+rm -rf dist build sqlalchemy_json_querybuilder.egg-info
