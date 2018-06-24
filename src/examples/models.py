@@ -1,8 +1,8 @@
 __author__ = "Suyash Soni"
 __email__ = "suyash.soni248@gmail.com"
 
-from examples.connector import Base, engine, session
-from datetime import datetime, timedelta
+from src.examples import Base
+from datetime import datetime
 from sqlalchemy import Table, Column, Integer, String, DateTime, ForeignKey
 from sqlalchemy.orm import relationship, backref
 

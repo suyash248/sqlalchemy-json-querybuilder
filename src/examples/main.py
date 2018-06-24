@@ -1,6 +1,6 @@
-from examples.models import Tag, Comment, Image
+from src.examples import Tag, Comment, Image
 from sqlalchemy_json_querybuilder.querybuilder.search import Search
-from examples.connector import Base, engine, session
+from src.examples import session
 from datetime import datetime, timedelta
 
 def populate_db():

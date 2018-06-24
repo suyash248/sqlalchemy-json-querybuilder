@@ -13,13 +13,7 @@ setuptools.setup(
     long_description=open('README.md').read(),
     long_description_content_type='text/markdown',
     url='https://github.com/suyash248/sqlalchemy-json-querybuilder',
-    packages=setuptools.find_packages(include=(
-            'sqlalchemy_json_querybuilder',
-            'sqlalchemy_json_querybuilder.commons',
-            'sqlalchemy_json_querybuilder.commons.error_handlers',
-            'sqlalchemy_json_querybuilder.constants',
-            'sqlalchemy_json_querybuilder.querybuilder'
-    )),
+    packages=setuptools.find_packages('src.sqlalchemy_json_querybuilder'),
     python_requires='>=3',
     install_requires=[
 		'SQLAlchemy>=1.2.5'
