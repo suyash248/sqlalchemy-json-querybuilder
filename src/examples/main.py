@@ -1,6 +1,6 @@
-from src.examples import Tag, Comment, Image
-from sqlalchemy_json_querybuilder.querybuilder.search import Search
-from src.examples import session
+from src.examples.models import Tag, Comment, Image
+from lib.sqlalchemy_json_querybuilder.querybuilder.search import Search
+from src.examples.connector import session
 from datetime import datetime, timedelta
 
 def populate_db():
@@ -53,7 +53,7 @@ def filter_and():
     filter_by = [criterion1, criterion2] # is equivalent to {'and': [criterion1, criterion2] }
     order_by = ['-Image.uuid']
 
-    search = Search(session, 'examples.models', (Image,), filter_by=filter_by, order_by=order_by)
+    search = Search(session, 'src.examples.models', (Image,), filter_by=filter_by, order_by=order_by)
     results = search.results
     print("Found {} record(s)".format(results['count']))
     for k, v in results.items():
@@ -77,7 +77,7 @@ def filter_or():
     filter_by = {'or': [criterion1, criterion2] }
     order_by = ['-Image.uuid']
 
-    search = Search(session, 'examples.models', (Image,),
+    search = Search(session, 'src.examples.models', (Image,),
                     filter_by=filter_by, order_by=order_by, page=1, per_page=5)
     results = search.results
     print("Found {} record(s)".format(results['count']))
@@ -116,7 +116,7 @@ def filter_and_or():
     }
     order_by = ['-Image.uuid']
 
-    search = Search(session, 'examples.models', (Image,),
+    search = Search(session, 'src.examples.models', (Image,),
                     filter_by=filter_by, order_by=order_by, page=1, per_page=5)
     results = search.results
     print("Found {} record(s)".format(results['count']))

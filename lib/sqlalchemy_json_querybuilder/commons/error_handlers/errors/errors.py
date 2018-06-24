@@ -2,7 +2,7 @@ __author__ = "Suyash Soni"
 __email__ = "suyash.soni248@gmail.com"
 
 import itertools
-from sqlalchemy_json_querybuilder.constants.error_codes import DBErrorCode
+from ....constants.error_codes import DBErrorCode
 
 class Error(object):
     """

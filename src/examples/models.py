@@ -1,7 +1,7 @@
 __author__ = "Suyash Soni"
 __email__ = "suyash.soni248@gmail.com"
 
-from src.examples import Base
+from src.examples.connector import Base
 from datetime import datetime
 from sqlalchemy import Table, Column, Integer, String, DateTime, ForeignKey
 from sqlalchemy.orm import relationship, backref

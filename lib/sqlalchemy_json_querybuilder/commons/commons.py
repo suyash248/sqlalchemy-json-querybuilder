@@ -4,10 +4,9 @@ __email__ = "suyash.soni248@gmail.com"
 import importlib
 import types
 from collections import OrderedDict
-from sqlalchemy_json_querybuilder.commons.callable import Callable
-from sqlalchemy_json_querybuilder.constants.error_codes import ErrorCode
-from sqlalchemy_json_querybuilder.commons.error_handlers.exceptions import ExceptionBuilder
-
+from ..commons.callable import Callable
+from ..constants.error_codes import ErrorCode
+from ..commons.error_handlers.exceptions import ExceptionBuilder
 
 def load_class(fully_qualified_class_name):
     """
