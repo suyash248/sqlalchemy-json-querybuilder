@@ -105,17 +105,17 @@ pip install sqlalchemy-json-querybuilder
 
 Following operators are supported - 
 
-`equals`, `eq`, `==`, `=`
+`equals`, `eq`, `==`, `=`,
 
-`not_equals`, `ne`, `!=`, `~=` 
+`not_equals`, `ne`, `!=`, `~=`,
 
-`less_than`, `lt`, `<`
+`less_than`, `lt`, `<`,
 
-`less_than_equals`, `lte`, `<=`
+`less_than_equals`, `lte`, `<=`,
 
-`greater_than`, `gt`, `>`
+`greater_than`, `gt`, `>`,
 
-`greater_than_equals`, `gte`, `>=`
+`greater_than_equals`, `gte`, `>=`,
 
 `like`, `ilike`, 
 
