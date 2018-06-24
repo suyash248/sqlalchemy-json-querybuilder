@@ -3,6 +3,9 @@ from lib.sqlalchemy_json_querybuilder.querybuilder.search import Search
 from src.examples.connector import session
 from datetime import datetime, timedelta
 
+# Package/module containing all sqlalchemy model classes.
+models_module = 'src.examples.models'
+
 def populate_db():
     # ----------------------------
     # Populate the database
@@ -53,7 +56,7 @@ def filter_and():
     filter_by = [criterion1, criterion2] # is equivalent to {'and': [criterion1, criterion2] }
     order_by = ['-Image.uuid']
 
-    search = Search(session, 'src.examples.models', (Image,), filter_by=filter_by, order_by=order_by)
+    search = Search(session, models_module, (Image,), filter_by=filter_by, order_by=order_by)
     results = search.results
     print("Found {} record(s)".format(results['count']))
     for k, v in results.items():
@@ -71,13 +74,13 @@ def filter_or():
     }
     criterion2 = {
         'field_name': 'Image.likes',
-        'operator': 'gt',
+        'operator': '>',
         'field_value': 5
     }
     filter_by = {'or': [criterion1, criterion2] }
     order_by = ['-Image.uuid']
 
-    search = Search(session, 'src.examples.models', (Image,),
+    search = Search(session, models_module, (Image,),
                     filter_by=filter_by, order_by=order_by, page=1, per_page=5)
     results = search.results
     print("Found {} record(s)".format(results['count']))
@@ -101,7 +104,7 @@ def filter_and_or():
     }
     criterion3 = {
         'field_name': 'Image.created_at',
-        'operator': 'gt',
+        'operator': '>',
         'field_value': datetime(2018, 6, 23)
     }
 
@@ -111,12 +114,12 @@ def filter_and_or():
     #                             AND
     #               (or_exp1 OR or_expr2 OR or_exprN)
     filter_by = {
-        'and': [criterion3], # uuid_anothercar, uuid_rhino
-        'or': [criterion1, criterion2] # uuid_car, uuid_anothercar
+        'and': [criterion3],
+        'or': [criterion1, criterion2]
     }
     order_by = ['-Image.uuid']
 
-    search = Search(session, 'src.examples.models', (Image,),
+    search = Search(session, models_module, (Image,),
                     filter_by=filter_by, order_by=order_by, page=1, per_page=5)
     results = search.results
     print("Found {} record(s)".format(results['count']))
