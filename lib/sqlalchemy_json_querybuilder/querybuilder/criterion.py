@@ -3,6 +3,7 @@ __email__ = "suyash.soni248@gmail.com"
 
 from ..commons.error_handlers.exceptions import SqlAlchemyException, ExceptionBuilder
 from ..constants.error_codes import ErrorCode
+from ..querybuilder.operators import OperatorEvaluator
 
 class Criterion(object):
     """
@@ -29,9 +30,7 @@ class Criterion(object):
                         'endswith', 'iendswith', 'contains', 'icontains', 'in', 'notin', 'isnull', 'isnotnull'``
         """
         try:
-            from ..querybuilder.operators import operators_mapping
-            operator_cls = operators_mapping[operator_name]
-            self.operator = operator_cls(model_cls, field_name, field_value)
+            self.operator_evaluator = OperatorEvaluator.obj(operator_name, model_cls, field_name, field_value)
         except KeyError as ke:
             ExceptionBuilder(SqlAlchemyException).error(ErrorCode.INVALID_OPERATOR, operator_name).message(
                 "Invalid operator {}".format(operator_name)
@@ -42,4 +41,4 @@ class Criterion(object):
         Evaluates underlying criterion and returns SQLAlchemy expression, this expression will be used
         later inside ``session(model_classes).query.filter(*expressions)`` method.
         """
-        return self.operator.expr()
+        return self.operator_evaluator.expr()
