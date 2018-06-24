@@ -431,3 +431,7 @@ results = session.query(NotificationGroup).filter(
           ).all()
  
 ```
+
+## Contributions
+
+Pull requests are welcome! Please create new pull requests from `dev` branch.
