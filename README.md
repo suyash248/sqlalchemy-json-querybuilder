@@ -163,7 +163,7 @@ Following operators are supported -
     is translated to
 
     ```python
-    query.filter(User.name < 18)
+    query.filter(User.age < 18)
     ```
 
 - #### lte
@@ -174,7 +174,7 @@ Following operators are supported -
     is translated to
 
     ```python
-    query.filter(User.name <= 18)
+    query.filter(User.age <= 18)
     ```
 
 - #### gt
@@ -185,7 +185,7 @@ Following operators are supported -
     is translated to
 
     ```python
-    query.filter(User.name > 18)
+    query.filter(User.age > 18)
     ```
 
 - #### gte
@@ -196,7 +196,7 @@ Following operators are supported -
     is translated to
 
     ```python
-    query.filter(User.name >= 18)
+    query.filter(User.age >= 18)
     ```
 
 - #### in
