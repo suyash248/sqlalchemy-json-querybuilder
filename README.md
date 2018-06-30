@@ -2,6 +2,8 @@
 
 It introduces a middleware between your application and Sqlalchemy ORM. So input to ORM can be provided in the form JSON/Objects.
 
+[![PyPI version](https://badge.fury.io/py/sqlalchemy-json-querybuilder.svg)](https://badge.fury.io/py/sqlalchemy-json-querybuilder)
+
 ## Installation
 
 ```sh
