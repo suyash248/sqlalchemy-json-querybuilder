@@ -1,7 +1,7 @@
 # Sqlalchemy JSON Querybuilder
 
 [![PyPI version](https://badge.fury.io/py/sqlalchemy-json-querybuilder.svg)](https://badge.fury.io/py/sqlalchemy-json-querybuilder)
-[![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/hyperium/hyper/master/LICENSE)
+[![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/suyash248/sqlalchemy-json-querybuilder/master/LICENSE)
 
 
 It introduces a middleware between your application and Sqlalchemy ORM. So input to ORM can be provided in the form JSON/Objects.
