@@ -135,6 +135,47 @@ Following operators are supported -
 
 > Note - `i` stands for `case insensitive`.
 
+- #### any
+
+    ```python
+    filter_by = [{
+        'field_name': 'User.addresses',
+        'operator': 'any',
+        'field_value': {
+            'field_name': 'Address.email_address',
+            'operator': 'equals',
+            'field_value': 'bar'
+        }
+    }]
+    ```
+    is translated to
+
+    ```python
+    query.filter(User.addresses.any(Address.email_address == 'bar'))
+
+    # also takes keyword arguments:
+    query.filter(User.addresses.any(email_address='bar'))
+    ```
+
+- #### has
+
+    ```python
+    filter_by = [{
+        'field_name': 'Address.user',
+        'operator': 'has',
+        'field_value': {
+            'field_name': 'User.name',
+            'operator': 'equals',
+            'field_value': 'bar'
+        }
+    }]
+    ```
+    is translated to
+
+    ```python
+    query.filter(Address.user.has(name='ed'))
+    ```
+
 - #### equals
 
     ```python
@@ -294,47 +335,6 @@ Following operators are supported -
 
     ```python
     query.filter(User.name.match('wendy'))
-    ```
-
-- #### any
-
-    ```python
-    filter_by = [{
-        'field_name': 'User.addresses',
-        'operator': 'any',
-        'field_value': {
-            'field_name': 'Address.email_address',
-            'operator': 'equals',
-            'field_value': 'bar'
-        }
-    }]
-    ```
-    is translated to
-
-    ```python
-    query.filter(User.addresses.any(Address.email_address == 'bar'))
-
-    # also takes keyword arguments:
-    query.filter(User.addresses.any(email_address='bar'))
-    ```
-
-- #### has
-
-    ```python
-    filter_by = [{
-        'field_name': 'Address.user',
-        'operator': 'has',
-        'field_value': {
-            'field_name': 'User.name',
-            'operator': 'equals',
-            'field_value': 'bar'
-        }
-    }]
-    ```
-    is translated to
-
-    ```python
-    query.filter(Address.user.has(name='ed'))
     ```
 
 ## Examples
