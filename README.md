@@ -6,7 +6,7 @@
 
 It introduces a middleware between your application and Sqlalchemy ORM. So input to ORM can be provided in the form JSON/Objects.
 
-![alt text](https://github.com/suyash248/sqlalchemy-json-querybuilder/blob/master/overview.png "Overview")
+![alt text](https://github.com/suyash248/sqlalchemy-json-querybuilder/blob/master/qb_overview.png "Overview")
 
 ## Installation
 
