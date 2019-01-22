@@ -112,9 +112,15 @@ pip install sqlalchemy-json-querybuilder
     search_obj = Search(session, 'some_module.models', (MyModel1,), filter_by=criteria, 
                                              order_by=ordering, page=1, per_page=10, all=False)
 
-    # Results contains `data` & `count`
+    # `results` property will query the DB and fetch the results, Results contains `data` & `count`
     results = search_obj.results
+    
+    #  SQLAlchemy `queryset` can be also obtanied, all the functions provided by SQLAlchemy can be invoked on the underlying queryset and later records can be fetched -
+    queryset = search_obj.query
+    results = queryset.join(Address, User.id==Address.user_id).join(UserProfile).all()
+    
     ```
+   
 
 ## Operators
 
