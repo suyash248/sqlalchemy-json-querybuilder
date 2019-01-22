@@ -3,6 +3,8 @@
 [![PyPI version](https://badge.fury.io/py/sqlalchemy-json-querybuilder.svg)](https://badge.fury.io/py/sqlalchemy-json-querybuilder)
 [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/suyash248/sqlalchemy-json-querybuilder/master/LICENSE)
 
+Utility to convert JSON/objects to SQLAlchemy queryset, which is used later to generate SQL queries to fetch data from RDBMS.
+
 ## Index
 * [Overview](https://github.com/suyash248/sqlalchemy-json-querybuilder#overview)
 * [Installation](https://github.com/suyash248/sqlalchemy-json-querybuilder#installation)
@@ -12,8 +14,6 @@
 * [Examples](https://github.com/suyash248/sqlalchemy-json-querybuilder#examples)
 
 ## Overview
-
-It introduces a middleware between your application and Sqlalchemy ORM. So input to ORM can be provided in the form JSON/Objects.
 
 ![alt text](https://github.com/suyash248/sqlalchemy-json-querybuilder/blob/master/qb_overview.png "Overview")
 
