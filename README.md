@@ -7,7 +7,7 @@
 * [Overview](https://github.com/suyash248/sqlalchemy-json-querybuilder#overview)
 * [Installation](https://github.com/suyash248/sqlalchemy-json-querybuilder#installation)
 * [Features](https://github.com/suyash248/sqlalchemy-json-querybuilder#features)
-* [Getting Started](https://github.com/suyash248/sqlalchemy-json-querybuilder#getting-started)
+* [Usage](https://github.com/suyash248/sqlalchemy-json-querybuilder#usage)
 * [Operators](https://github.com/suyash248/sqlalchemy-json-querybuilder#operators)
 * [Examples](https://github.com/suyash248/sqlalchemy-json-querybuilder#examples)
 
