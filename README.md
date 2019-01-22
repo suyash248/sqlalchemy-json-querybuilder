@@ -47,9 +47,9 @@ pip install sqlalchemy-json-querybuilder
     
     ```sql
     SELECT field_1, field_2..field_n FROM some_table WHERE
-          (and_criterion_dict_1 AND and_criterion_dict_1 AND and_criterion_dict_n)
+          (and_criterion_dict_1 AND and_criterion_dict_2 AND....AND and_criterion_dict_n)
                                     AND
-          (or_criterion_dict_1 OR or_criterion_dict_1 OR or_criterion_dict_1);
+          (or_criterion_dict_1 OR or_criterion_dict_2 OR....OR or_criterion_dict_n);
     ```
 
 ## Usage
