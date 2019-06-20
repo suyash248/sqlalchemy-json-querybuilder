@@ -12,6 +12,8 @@ Utility to convert JSON/objects to SQLAlchemy queryset, which is used later to g
 * [Usage](https://github.com/suyash248/sqlalchemy-json-querybuilder#usage)
 * [Operators](https://github.com/suyash248/sqlalchemy-json-querybuilder#operators)
 * [Examples](https://github.com/suyash248/sqlalchemy-json-querybuilder#examples)
+* [Contribution](https://github.com/suyash248/sqlalchemy-json-querybuilder#contribution)
+* [TODO](https://github.com/suyash248/sqlalchemy-json-querybuilder#todo)
 
 ## Overview
 
@@ -459,3 +461,6 @@ results = session.query(NotificationGroup).filter(
 ## Contributions
 
 Pull requests are welcome! Please create new pull requests from `dev` branch.
+
+## Overview
+ - Support for `JSON` columns.
