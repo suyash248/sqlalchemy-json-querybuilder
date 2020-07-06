@@ -119,10 +119,20 @@ pip install sqlalchemy-json-querybuilder
     
     #  SQLAlchemy `queryset` can also be obtanied, all the functions supported by SQLAlchemy on queryset can be invoked on the underlying queryset and later records can be fetched -
     
-    queryset = search_obj.query
+    queryset = search_obj.query()
     queryset = queryset.join(Address, User.id==Address.user_id).join(UserProfile)
     # Fetching records
     results = queryset.all() 
+    
+    # if you want to group by:
+    queryset = search_test.query()
+    queryset = queryset.with_entities(Table.column1, func.count(Table.column2)).group_by(Table.column1)
+    # Fetching records
+    results = queryset.all() 
+    
+    results = queryset.all() 
+    
+    
     
     ```
    
