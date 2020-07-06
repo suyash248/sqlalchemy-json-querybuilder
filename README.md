@@ -130,8 +130,6 @@ pip install sqlalchemy-json-querybuilder
     # Fetching records
     results = queryset.all() 
     
-    results = queryset.all() 
-    
     
     
     ```
